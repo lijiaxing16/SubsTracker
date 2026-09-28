@@ -1899,6 +1899,11 @@ const lunarBiz = {
       statusSelect.addEventListener('change', () => renderSubscriptionTable());
     }
 
+    const listShowLunar = document.getElementById('listShowLunar');
+    if (listShowLunar) {
+      listShowLunar.addEventListener('change', handleListLunarToggle);
+    }
+
     // 获取所有订阅并按到期时间排序
     async function loadSubscriptions(showLoading = true) {
       try {
@@ -3508,6 +3513,7 @@ const lunarBiz = {
     async function editSubscription(e) {
       const button = e.target.closest('button');
       const id = button ? button.dataset.id : (e.target.dataset.id || e.target.parentElement.dataset.id);
+      const originalButtonContent = button?.innerHTML;
       if (button) { button.disabled = true; button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'; }
       
       try {
@@ -3584,7 +3590,7 @@ const lunarBiz = {
         showToast('获取订阅信息失败', 'error');
         isEditingLoading = false;
       } finally {
-        if (button) { button.disabled = false; button.innerHTML = '<i class="fas fa-edit"></i>'; }
+        if (button) { button.disabled = false; button.innerHTML = originalButtonContent; }
       }
     }
     
